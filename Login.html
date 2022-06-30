@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+        <link rel="stylesheet" href="css/login.css">
+        
+  </head>
+  <body>
+
+
+  <div class="form_Login">
+    <h3 class= "content">SOIOT SYSTEM</h3>
+    <form action="" method="post" class="login">
+
+      <input type="text" class="user_name" id="username" name="username" placeholder="user name">
+      <br>
+      <span id="error_username" class="error" style="color: red"> </span>
+
+      <input type="password" class="password" id="password" name="password" placeholder="password"> 
+      <br>
+      <span id="error_password" class="error" style="color: red"> </span>
+      <span id="error_" class="error" style="color: red"> </span>
+      <br><br>
+
+      <button type="button" class="button_login" onclick="functionLogin()"><b>LOGIN</b></button>
+      <span class=""><a href="#" class="create_new_account">or create new account</a></span>
+      
+    </form>
+
+  </div>
+
+  </body>
+  <script type="text/javascript" src="js/login.js"></script>
+</html>
