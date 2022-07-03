@@ -127,3 +127,39 @@ td, th {
   background-color: #f28e19;
   color: #fff;
 }
+
+
+
+/*--------------------------------------------------------*/
+ul li{
+    list-style: none;
+}
+
+
+
+
+
+.content .content__paging ul{
+    display: flex;
+    justify-content: center;
+}
+
+.content .content__paging li{
+   width: 30px;
+   height: 30px;
+   border-radius: 3px;
+   border: 1px solid gray;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-right: 15px;
+   cursor: pointer;
+}
+
+.content .content__paging ul li a{
+    color:black;
+}
+.content .content__paging ul li:hover{
+    background-color: orange;
+    color: white;
+}
