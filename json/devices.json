@@ -1,0 +1,30 @@
+[
+    {
+        name:'TV', 
+        address:'00:1B44:11:3A:B7', 
+        ip:'127.0.0.2', 
+        date:'2021-05-31', 
+        consumption:60
+    },
+    {
+        name:'Washer', 
+        address:'00:1B44:11:3A:B8', 
+        ip:'127.0.0.3', 
+        date:'2021-05-31', 
+        consumption:60
+    },
+    {
+        name:'Refriferator', 
+        address:'00:1B44:11:3A:B9', 
+        ip:'127.0.0.4', 
+        date:'2021-05-31', 
+        consumption:80
+    },
+    {
+        name:'Selling Fan', 
+        address:'00:1B44:11:3A:B2', 
+        ip:'127.0.0.5', 
+        date:'2021-05-31', 
+        consumption:100
+    },
+]
