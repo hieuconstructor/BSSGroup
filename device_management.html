@@ -7,17 +7,29 @@
 </head>
 <body>
     <div>
-        <div class="sidebar">
+        <div class="iconShowSide">
+                <a class="icon" onclick="showSideNav()">
+                  <i class="btn_nav">☰</i>
+                </a>
+                <li class="showSidebar" style="display: none;">=</li>
+              </div>
+        <div class="sidebar" id="sidebar">
+           <img src="" class="avatar">
            <h3>Device Management</h3>
-           <a href="device_management.html">Dashboard</a>
-           <a href="logs.html">Logs</a>
-           <a href="setting.html">Setting</a>
-           
+           <ul>
+            <li class="pageOn"><a href="device_management.html" class="pageOn">Dashboard</a></li>
+            <li><a href="logs.html">Logs</a></li>
+            <li><a href="setting.html">Setting</a></li>
+           </ul>
+
         </div>
         
-        <div class="main">
-          <div class="header"><b>Welcome John</b></div>
-          <div class="content">
+        <div class="main" onclick="closeSide()">
+          <div class="header">
+            
+            <b>Welcome John</b>
+          </div>
+          <div class="content" >
             <div class="table">
               <table class="">
                   <tr  class="">
@@ -33,17 +45,30 @@
                   </tbody>
               </table>
             </div>
-            <div style="height: 100%;">
-              <div class="chart">
-                <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-              </div>
-              <div class="create_device">
-                <form id="create_device">
-                  <input type="text" class="name" id="name" name="name" placeholder="name">
-                  <input type="text" name="ip" class="ip" id="ip" placeholder="IP">
-                  <br>
-                  <button type="button" class="btn_create" onclick="createDevice()">ADD DEVICE</button>
-                </form>
+            <div class="chart_device"  >
+              
+              <div >
+
+                <div class="chart" id="chartIF" > 
+                  <canvas id="myChart" ></canvas>
+                </div>
+
+                <div class="create_device">
+                  <form id="create_device">
+                    <input type="text" class="name" id="name" name="name" placeholder="name">
+                    <br>
+                    <br>
+                    <span id="error_namedevice" class="error" style="color: red"> </span>
+                    
+                    <br>
+                    <input type="text" name="ip" class="ip" id="ip" placeholder="IP">
+                    <br>
+                    <span id="error_ip" class="error" style="color: red"> </span>
+                    <br>
+                    <button type="button" class="btn_create" onclick="createDevice()">ADD DEVICE</button>
+                  </form>
+                </div>
+
               </div>
             </div>
           </div>
@@ -56,160 +81,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
   
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script type="text/javascript">
-
-    //---------------------------------Hiển thị dữ liệu bảng-------------------------------//
-    var jsonDevices =  [
-                          {name:'TV', address:'00:1B44:11:3A:B7', ip:'127.0.0.2', date:'2021-05-31', consumption:60},
-                          {name:'Washer', address:'00:1B44:11:3A:B8', ip:'127.0.0.3', date:'2021-05-31', consumption:60},
-                          {name:'Refriferator', address:'00:1B44:11:3A:B9', ip:'127.0.0.4', date:'2021-05-31', consumption:80},
-                          {name:'Selling Fan', address:'00:1B44:11:3A:B2', ip:'127.0.0.5', date:'2021-05-31', consumption:100},
-                        ]
-
-    buildTable(jsonDevices);
-    //Hàm xây dựng bảng dữ liệu
-    function buildTable(data){
-      var table = document.getElementById('myTable');
-        table.innerHTML=""
-        for (var i = 0; i < data.length; i++){
-          var row = ` <tr>
-                        <td>${data[i].name}</td>
-                        <td>${data[i].address}</td>
-                        <td>${data[i].ip}</td>
-                        <td>${data[i].date}</td>
-                        <td>${data[i].consumption}</td>
-                      </tr>`
-          table.innerHTML += row
-        }
-        //Tính tổng
-        var total = 0;
-        for (var i = 0; i < data.length; i++){
-          var total = jsonDevices.map(jsonDevices => jsonDevices.consumption).reduce((acc, amount) => acc + amount);
-    
-        }
-
-        var rowTotal = ` <tr>
-                            <td colspan = "4">Total</td>
-                            <td>${total}</td>
-                         </tr>`
-        table.innerHTML += rowTotal
-    }
-
-    //---------------------------------Vẽ biểu đồ-------------------------------//
-    
-    var barColors = [
-        "#b91d47",
-        "#00aba9",
-        "#2b5797",
-        "#e8c3b9",    
-    ];
-
-    function showChart(){
-
-      //Hiển thị chú thích tên của các màu
-      var xValues = [];
-      for (var i = 0; i < jsonDevices.length; i++){
-          xValues.push(jsonDevices[i].name);
-      }
-      //Hiển thị cong suat
-      var yValues = [];
-      for (var i = 0; i < jsonDevices.length; i++){
-          yValues.push(jsonDevices[i].consumption);
-      }
-      //Các màu của biểu đồ
-      
-
-      new Chart("myChart", {
-        type: "doughnut",
-        data: {
-          labels: xValues,
-          datasets: [{
-            backgroundColor: barColors,
-            data: yValues
-          }]
-        },
-        options: {
-          title: {
-            display: true,
-            text: "Power Cumsumption"
-          }
-        }
-      });
-    }
-
-    showChart();
-    
-
-
-
-    //---------------------------------Thêm mới thiết bị-------------------------------//
-
-
-    
-
-    function Device(name, address, ip, date, consumption) {
-      this.name = name;
-      this.address = address;
-      this.ip = ip;
-      this.date = date;
-      this.consumption = consumption;
-    }
-
-    //Hàm thêm mới thiết bị
-    function createDevice(){
-      
-      var nameDevice = document.getElementById("name").value;
-      var ipDevice = document.getElementById("ip").value;
-      var today = new Date();
-      var addressDevice= ""; 
-      var dateDevice = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-      var consumptionDevice = Math.floor(Math.random() * 101);
-      //Rule IP
-      const regexExp = /^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$/gi;
-
-
-      //Validate dữ liệu
-      for (var i = 0; i < jsonDevices.length; i++){
-        if(nameDevice == jsonDevices[i].name){
-          alert("Thiết bị đã tồn tại!");
-          return false;
-        }
-
-        if(nameDevice == "") {
-          alert("Ten thiet bi khong duoc de trong!");
-          return false;
-        }
-
-        if(ipDevice == ""){
-          alert("IP thiet bi khong duoc de trong!");
-          return false;
-        }
-
-        if(!regexExp.test(ipDevice)){
-          alert("IP không hợp lệ!");
-          return false
-        }
-      }
-
-      var table = document.getElementById('myTable');
-      //Xóa trắng bảng dữ liệu
-      table.innerHTML=""
-      
-      //Thêm thiết bị mới
-      jsonDevices.push(new Device(nameDevice,addressDevice, ipDevice, dateDevice, consumptionDevice ));
-      //load lại bảng dữ liệu mới
-      buildTable(jsonDevices);
-
-      //random mã màu mới
-      const randomColor = "#" + Math.floor(Math.random()*16777215).toString(16);
-      //Thêm mã màu mới
-      barColors.push(randomColor);
-      showChart();
-      
-    }
-
-    
-    
+  <script type="text/javascript" src="js/dashboard.js"></script>
   
-  </script>
 </html> 

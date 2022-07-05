@@ -1,28 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/log.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://code.jquery.com/jquery-3.4.1.js"
-        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"> </script>
 
 </head>
 <body>
     <div>
-        <div class="sidebar">
+        <div class="sidebar" id="sidebar">
+           <img src="" class="avatar">
            <h3>Device Management</h3>
-           <a href="device_management.html">Dashboard</a>
-           <a href="logs.html">Logs</a>
-           <a href="setting.html">Setting</a>
-           
+           <ul>
+            <li><a href="device_management.html" >Dashboard</a></li>
+            <li><a href="logs.html" class="pageOn">Logs</a></li>
+            <li><a href="setting.html">Setting</a></li>
+           </ul>
+
         </div>
         
         <div class="main">
           <div class="header"><b>Welcome John</b></div>
           <div class="content">
           	<div class="content__search">
-                <input type="text" placeholder="Nhập vào đây">
-                <button id="search">Search</button>
+                <input type="text" placeholder="Nhập vào đây" id="searchInput">
+                <button id="search" onclick="searchDevies()" >Search</button>
                 
             </div>
             <div class="table">
@@ -43,7 +45,8 @@
             <div class="content__paging">
                 <div class="page">
                     <ul style="display: inline-block;">
-                        <button onclick="perviousPage()" id="btn_previous"><< Previous</button>                        <div class="number-page" id="number-page">
+                        <button onclick="perviousPage()" id="btn_previous"><< Previous</button>
+                        <div class="number-page" id="number-page">
                             
 	                    </div>
                         <button onclick="nextPage()" id="btn_next">nextPage >></button> 
@@ -66,136 +69,7 @@
     
   
    
-</body>
-  
-<script type="text/javascript">
-	var selectBox = document.getElementById("selectBox").value;
-	var perPage = selectBox;
-	let currentPage = 1;
-	let start = 0;
-	let end = perPage;
-
-	
-
-	const devices = [
-					{DeviceID :'101', Name :"TV", Action :"Turn On", Date :"124689"},
-					{DeviceID :"102", Name :"Washer", Action :"Sleep", Date :"124533"},
-					{DeviceID :"103", Name :"Selling Fan", Action :"Turn Off", Date :"12518"},
-					{DeviceID :"104", Name :"TV", Action :"Turn On", Date :"124689"},
-					{DeviceID :"105", Name :"Washer", Action :"Sleep",Date :"124533"},
-					{DeviceID :"106", Name :"Selling Fan", Action :"Turn Off", Date :"12518"},
-					{DeviceID :"107", Name :"TV", Action :"Turn On", Date :"124689"},
-					{DeviceID :"108", Name :"Washer", Action :"Sleep", Date :"124533"},
-					{DeviceID :"109", Name :"Selling Fan", Action :"Turn Off", Date :"12518"},
-					{DeviceID :"110", Name :"TV", Action :"Turn On", Date :"124689"},
-					{DeviceID :"111", Name :"Washer", Action :"Sleep",Date :"124533"},
-					{DeviceID :"112", Name :"Selling Fan", Action :"Turn Off", Date :"12518"},
-					{DeviceID :"113", Name :"TV", Action :"Turn On", Date :"124689"},
-					{DeviceID :"114", Name :"Washer", Action :"Sleep", Date :"124533"},
-					{DeviceID :"115", Name :"Selling Fan", Action :"Turn Off", Date :"12518"},
-					{DeviceID :"116", Name :"TV", Action :"Turn On", Date :"124689"},
-					{DeviceID :"117", Name :"Washer", Action :"Sleep",Date :"124533"},
-					{DeviceID :"118", Name :"Selling Fan", Action :"Turn Off", Date :"12518"},
-					{DeviceID :"119", Name :"TV", Action :"Turn On", Date :"124689"},
-					{DeviceID :"120", Name :"Washer", Action :"Sleep", Date :"124533"},
-					{DeviceID :"121", Name :"Selling Fan", Action :"Turn Off", Date :"12518"},
-					{DeviceID :"122", Name :"TV", Action :"Turn On", Date :"124689"},
-					{DeviceID :"123", Name :"Washer", Action :"Sleep",Date :"124533"},
-					{DeviceID :"124", Name :"Selling Fan", Action :"Turn Off", Date :"12518"},
-				]
-
-	const totalPages = Math.ceil(devices.length / perPage);
-	const btnNext = document.querySelector('.btn-next');
-	var numberOfPage = document.getElementById("number-page");
-	function showTotalPages(){
-		for (var i = 0; i < Math.ceil(devices.length/perPage); i++){
-	      var soTrang = `
-	      					<li onclick = "changePageNumber(this.id)" id="trang${i+1}"> <a > ${i+1} </a> </li>
-	      				`
-	      numberOfPage.innerHTML += soTrang;
-	    }
-	}
-
-	showTotalPages();
-	
-    
-	
-	var idButton;
-    function changePageNumber(idButton){
-    	
-    	currentPage = idButton.replace(/[^0-9]/g, '');
-    	start = (currentPage-1) * perPage;
-		end = currentPage * perPage;
-		renderDevice();
-		console.log(idButton)
-    }
-
-	function renderDevice() {
-	    html = '';
-	    const content = devices.map((item, index) => {
-	        if (index >= start && index < end) {
-	            html += '<tr>';
-	           
-	            html += '<td>' + item.DeviceID + '</td>';
-	            html += '<td>' + item.Name + '</td>';
-	            html += '<td>' + item.Action + '</td>';
-	            html += '<td>' + item.Date + '</td>';
-	            
-	            html += '</tr>';
-	            
-	            return html;
-	        }
-	    });
-	    document.getElementById('myTable').innerHTML = html;
-	    
-	}
-
-	
-
-	function nextPage(){
-		currentPage++;
-		
-
-		if(currentPage > totalPages){
-			currentPage = totalPages;
-		}
-		
-		start = (currentPage-1) * perPage;
-		end = currentPage * perPage;
-
-
-
-		renderDevice();
-	}
-
-	function perviousPage(){
-		currentPage--;
-		
-
-		if(currentPage <= 1){
-			currentPage = 1;
-		}
-		console.log(start,end);
-		start = (currentPage-1) * perPage;
-		end = currentPage * perPage;
-		
-		renderDevice();
-	}
-
-	function changeFunc() {
-	    /*var selectBox = document.getElementById("selectBox").value;
-		
-	    var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-	    
-	    var perPage = selectedValue;*/
-
-
-	    document.getElementById("myTable").innerHTML = "";
-	}
-
-	renderDevice();
-
-
-</script>
+</body> 
+<script type="text/javascript" src="js/logs.js"></script>
   
 </html> 

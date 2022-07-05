@@ -1,4 +1,4 @@
-function functionLogin() {
+  function functionLogin() {
   var username = document.getElementById("username").value;
   var password = document.getElementById("password").value;
 
@@ -29,7 +29,7 @@ function functionLogin() {
 
 
   if(username == "john" && password == "1234"){
-  	alert("Login succesful !!");
+  	
   	window.location = "device_management.html"; // Redirecting to other page.
 	return false;
   }
